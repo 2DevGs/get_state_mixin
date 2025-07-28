@@ -1,7 +1,9 @@
 
 import 'package:get/get.dart';
-import 'package:get_state_mixin/pages/home_controller.dart';
-import 'package:get_state_mixin/repository/viacep_repository.dart';
+
+import '../repository/viacep_repository.dart';
+import 'home_controller.dart';
+import 'home_controller_state_mixin.dart';
 
 class HomeBindings extends Bindings {
 
@@ -9,6 +11,7 @@ class HomeBindings extends Bindings {
   void dependencies() {
     Get.lazyPut(() => ViacepRepository());
     Get.put(HomeController(Get.find()));
+    Get.put(HomeControllerStateMixin(Get.find()));
   }
   
 

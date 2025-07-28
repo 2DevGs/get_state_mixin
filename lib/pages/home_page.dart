@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_state_mixin/models/cep_model.dart';
-import 'package:get_state_mixin/pages/home_controller.dart';
+
+import '../models/cep_model.dart';
+import 'home_controller_state_mixin.dart';
 
 class HomePage extends StatelessWidget {
-  final controller = Get.find<HomeController>();
+  final controller = Get.find<HomeControllerStateMixin>();
 
   HomePage({super.key});
 
@@ -33,30 +34,41 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Obx(
-                () {
-                  return Visibility(
-                    visible: controller.loading,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                },
-              ),
-              Obx(
-                () => Visibility(
-                  visible: controller.isError,
-                  child: const Text('Erro ao buscar CEP'),
+              controller.obx(
+                (state) => CepWidget(state),
+                onEmpty: const Text('Nenhum CEP encontrado'),
+                onLoading: const Text('Carregando'),
+                onError: (error) => const Text(
+                  'Erro ao buscar CEP',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
                 ),
               ),
-              Obx(
-                () {
-                  return Visibility(
-                    visible: !controller.loading,
-                    child: CepWidget(controller.cep),
-                  );
-                },
-              ),
+              // Obx(
+              //   () {
+              //     return Visibility(
+              //       visible: controller.loading,
+              //       child: const Center(
+              //         child: CircularProgressIndicator(),
+              //       ),
+              //     );
+              //   },
+              // ),
+              // Obx(
+              //   () => Visibility(
+              //     visible: controller.isError,
+              //     child: const Text('Erro ao buscar CEP'),
+              //   ),
+              // ),
+              // Obx(
+              //   () {
+              //     return Visibility(
+              //       visible: !controller.loading,
+              //       child: CepWidget(controller.cep),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),
