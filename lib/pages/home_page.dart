@@ -31,6 +31,12 @@ class HomePage extends StatelessWidget {
                 },
                 child: const Text('Buscar'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.findAddress2();
+                },
+                child: const Text('Buscar 2'),
+              ),
               const SizedBox(
                 height: 20,
               ),
