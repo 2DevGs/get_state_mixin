@@ -5,13 +5,13 @@ class CepModel {
   
   String cep;
   String logradouro;
-  String cidade;
+  String localidade;
   String uf;
   
   CepModel({
     required this.cep,
     required this.logradouro,
-    required this.cidade,
+    required this.localidade,
     required this.uf,
   });
   
@@ -20,7 +20,7 @@ class CepModel {
     return {
       'cep': cep,
       'logradouro': logradouro,
-      'cidade': cidade,
+      'localidade': localidade,
       'uf': uf,
     };
   }
@@ -29,7 +29,7 @@ class CepModel {
     return CepModel(
       cep: map['cep'] ?? '',
       logradouro: map['logradouro'] ?? '',
-      cidade: map['cidade'] ?? '',
+      localidade: map['localidade'] ?? '',
       uf: map['uf'] ?? '',
     );
   }

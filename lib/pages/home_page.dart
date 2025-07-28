@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_state_mixin/models/cep_model.dart';
+import 'package:get_state_mixin/pages/home_controller.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final controller = Get.find<HomeController>();
+
+  HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +19,44 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              TextFormField(),
+              TextFormField(
+                onChanged: ((value) {
+                  controller.cepSearch = value;
+                }),
+              ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.findAddress();
+                },
                 child: const Text('Buscar'),
               ),
               const SizedBox(
-                 height: 20,
+                height: 20,
               ),
-              const CepWidget(),
+              Obx(
+                () {
+                  return Visibility(
+                    visible: controller.loading,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                },
+              ),
+              Obx(
+                () => Visibility(
+                  visible: controller.isError,
+                  child: const Text('Erro ao buscar CEP'),
+                ),
+              ),
+              Obx(
+                () {
+                  return Visibility(
+                    visible: !controller.loading,
+                    child: CepWidget(controller.cep),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -31,18 +65,19 @@ class HomePage extends StatelessWidget {
   }
 }
 
-
 class CepWidget extends StatelessWidget {
-  const CepWidget({super.key});
+  final CepModel? cepModel;
+
+  const CepWidget(this.cepModel, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        Text('CEP: '),
-        Text('Cidade: '),
-        Text('Rua: '),
-        Text('UF: '),
+      children: [
+        Text('CEP: ${cepModel?.cep ?? ''}'),
+        Text('Cidade: ${cepModel?.localidade ?? ''}'),
+        Text('Rua: ${cepModel?.logradouro ?? ''}'),
+        Text('UF: ${cepModel?.uf ?? ''}'),
       ],
     );
   }
