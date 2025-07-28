@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/cep_model.dart';
-import 'home_controller_state_mixin.dart';
+import 'home_super_controller.dart';
 
 class HomePage extends StatelessWidget {
-  final controller = Get.find<HomeControllerStateMixin>();
+  // final controller = Get.find<HomeController>();
+  // final controller = Get.find<HomeControllerStateMixin>();
+  final controller = Get.find<HomeSuperController>();
 
   HomePage({super.key});
 
